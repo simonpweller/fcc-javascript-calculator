@@ -37,14 +37,10 @@
       curr = newVals.curr;
 
       if (curr.length >= 9 || calcStr.length >= 23) {
-        curr = "";
-        calcStr = "";
-
         document.querySelector("#summaryDisplay").textContent =
           "Digit Limit Met";
         document.querySelector("#display").textContent = "0";
       } else {
-        // render
         document.querySelector("#summaryDisplay").textContent = calcStr;
         document.querySelector("#display").textContent = curr;
       }
