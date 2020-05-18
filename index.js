@@ -1,45 +1,37 @@
 (function () {
-  var calcStr = "0";
-  var curr = "0";
+  let display = { calcStr: "0", curr: "0" };
 
   setUpHandlers();
 
   function setUpHandlers() {
     document.querySelector("#keys").addEventListener("click", function (e) {
       var key = e.target.getAttribute("data-key");
-      var newVals = {
-        calcStr: calcStr,
-        curr: curr,
-      };
 
       if (e.target.nodeName !== "BUTTON") {
         return;
       }
 
       if (isOperator(key)) {
-        newVals = processOperator(curr, calcStr, key);
+        display = processOperator(display.curr, display.calcStr, key);
       } else if (key === "=") {
-        newVals = processEqual(curr, calcStr);
+        display = processEqual(display.curr, display.calcStr);
       } else if (key === "AC") {
-        newVals = processAC();
+        display = processAC();
       } else if (key === "CE") {
-        newVals = processCE(calcStr);
+        display = processCE(display.calcStr);
       } else if (key === ".") {
-        newVals = processDecimal(curr, calcStr);
+        display = processDecimal(display.curr, display.calcStr);
       } else {
-        newVals = processNum(curr, calcStr, key);
+        display = processNum(display.curr, display.calcStr, key);
       }
 
-      calcStr = newVals.calcStr;
-      curr = newVals.curr;
-
-      if (curr.length >= 9 || calcStr.length >= 23) {
+      if (display.curr.length >= 9 || display.calcStr.length >= 23) {
         document.querySelector("#summaryDisplay").textContent =
           "Digit Limit Met";
         document.querySelector("#display").textContent = "0";
       } else {
-        document.querySelector("#summaryDisplay").textContent = calcStr;
-        document.querySelector("#display").textContent = curr;
+        document.querySelector("#summaryDisplay").textContent = display.calcStr;
+        document.querySelector("#display").textContent = display.curr;
       }
     });
   }
