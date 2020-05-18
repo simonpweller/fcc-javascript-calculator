@@ -13,21 +13,21 @@
 
   function keyEventReducer(display, key) {
     switch (key) {
+      case "AC":
+        return processAC();
+      case "CE":
+        return processCE(display);
+      case "=":
+        return processEqual(display);
+      case ".":
+        return processDecimal(display);
       case "+":
       case "-":
       case "*":
       case "/":
-        return processOperator(display.curr, display.calcStr, key);
-      case "=":
-        return processEqual(display.curr, display.calcStr);
-      case "AC":
-        return processAC();
-      case "CE":
-        return processCE(display.calcStr);
-      case ".":
-        return processDecimal(display.curr, display.calcStr);
+        return processOperator(display, key);
       default:
-        return processNum(display.curr, display.calcStr, key);
+        return processNum(display, key);
     }
   }
 
@@ -41,8 +41,8 @@
     }
   }
 
-  function processOperator(curr, calcStr, operator) {
-    var length = calcStr.length;
+  function processOperator({ curr, calcStr }, operator) {
+    const length = calcStr.length;
     if ((length === 0 || calcStr === "-") && operator !== "subtract") {
       // invalid - do nothing;
     } else {
@@ -51,7 +51,7 @@
         calcStr = curr;
       }
 
-      var lastEntry = calcStr[length - 1];
+      const lastEntry = calcStr[length - 1];
       if (isOperator(lastEntry) || lastEntry === ".") {
         if (isOperator(calcStr[length - 2])) {
           calcStr = calcStr.substring(0, calcStr.length - 1);
@@ -70,9 +70,9 @@
     };
   }
 
-  function processEqual(curr, calcStr) {
-    var length = calcStr.length;
-    var lastEntry = calcStr[length - 1];
+  function processEqual({ curr, calcStr }) {
+    const length = calcStr.length;
+    const lastEntry = calcStr[length - 1];
     if (length === 0 || isOperator(lastEntry) || calcStr.indexOf("=") > -1) {
       // invalid - do nothing;
     } else {
@@ -89,15 +89,15 @@
     };
   }
 
-  function processNum(curr, calcStr, key) {
+  function processNum({ curr, calcStr }, key) {
     // if current state is calculation result - reset calcStr and curr
     if (calcStr.indexOf("=") > -1) {
       calcStr = "";
       curr = "";
     }
 
-    var length = calcStr.length;
-    var lastEntry = calcStr[length - 1];
+    const length = calcStr.length;
+    const lastEntry = calcStr[length - 1];
 
     // if lastEntry is operator, reset curr;
     if (isOperator(lastEntry)) {
@@ -119,15 +119,15 @@
     };
   }
 
-  function processDecimal(curr, calcStr) {
+  function processDecimal({ curr, calcStr }) {
     // if current state is calculation result - reset calcStr and curr
     if (calcStr.indexOf("=") > -1) {
       calcStr = "";
       curr = "";
     }
 
-    var length = calcStr.length;
-    var lastEntry = calcStr[length - 1];
+    const length = calcStr.length;
+    const lastEntry = calcStr[length - 1];
     // if there is already a decimal, do nothing
     if (curr.includes(".")) {
     } else if (isOperator(lastEntry) || calcStr.length === 0) {
@@ -147,7 +147,7 @@
     return { calcStr: "0", curr: "0" };
   }
 
-  function processCE(calcStr) {
+  function processCE({ calcStr }) {
     // if current state is calculation result - reset calcStr and curr
     if (calcStr.indexOf("=") > -1) {
       return {
@@ -156,14 +156,14 @@
       };
     }
 
-    var curr = "";
-    var match = calcStr.match(/[\/\*\-\+]/gi);
+    let curr = "";
+    const match = calcStr.match(/[\/\*\-\+]/gi);
     if (match === null) {
       // no operators found;
       calcStr = "";
     } else {
       // operators found
-      var lastIndex = calcStr.lastIndexOf(match[match.length - 1]);
+      let lastIndex = calcStr.lastIndexOf(match[match.length - 1]);
       if (lastIndex < calcStr.length - 1) {
         // doesn't end with operator;
         curr = calcStr[lastIndex]; // set curr to last operator;
@@ -188,9 +188,8 @@
   }
 
   function cutDecimals(value, precision) {
-    var exponentialForm = Number(value + "e" + precision);
-    var rounded = Math.round(exponentialForm);
-    var finalResult = Number(rounded + "e-" + precision);
-    return finalResult;
+    const exponentialForm = Number(value + "e" + precision);
+    const rounded = Math.round(exponentialForm);
+    return Number(rounded + "e-" + precision);
   }
 })();
