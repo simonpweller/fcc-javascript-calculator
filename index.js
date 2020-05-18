@@ -6,7 +6,7 @@
 
   function setUpHandlers() {
     document.querySelector("#keys").addEventListener("click", function (e) {
-      var id = e.target.getAttribute("data-calc-str");
+      var key = e.target.getAttribute("data-key");
       var newVals = {
         calcStr: calcStr,
         curr: curr,
@@ -16,21 +16,21 @@
         return;
       }
 
-      if (isOperator(id)) {
-        newVals = processOperator(curr, calcStr, id);
-      } else if (id === "=") {
+      if (isOperator(key)) {
+        newVals = processOperator(curr, calcStr, key);
+      } else if (key === "=") {
         newVals = processEqual(curr, calcStr);
-      } else if (id === "AC") {
+      } else if (key === "AC") {
         newVals = {
           calcStr: "0",
           curr: "0",
         };
-      } else if (id === "CE") {
+      } else if (key === "CE") {
         newVals = processCE(calcStr);
-      } else if (id === ".") {
+      } else if (key === ".") {
         newVals = processDecimal(curr, calcStr);
       } else {
-        newVals = processNum(curr, calcStr, id);
+        newVals = processNum(curr, calcStr, key);
       }
 
       calcStr = newVals.calcStr;
@@ -95,7 +95,7 @@
     };
   }
 
-  function processNum(curr, calcStr, id) {
+  function processNum(curr, calcStr, key) {
     // if current state is calculation result - reset calcStr and curr
     if (calcStr.indexOf("=") > -1) {
       calcStr = "";
@@ -116,8 +116,8 @@
       calcStr = calcStr.substring(0, calcStr.length - 1);
     }
 
-    calcStr += id;
-    curr += id;
+    calcStr += key;
+    curr += key;
 
     return {
       curr: curr,
@@ -185,8 +185,8 @@
     };
   }
 
-  function isOperator(id) {
-    return "/*-+".includes(id);
+  function isOperator(key) {
+    return "/*-+".includes(key);
   }
 
   function cutDecimals(value, precision) {
