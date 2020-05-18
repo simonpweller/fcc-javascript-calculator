@@ -1,39 +1,44 @@
 (function () {
-  let display = { calcStr: "0", curr: "0" };
+  let state = { calcStr: "0", curr: "0" };
 
   setUpHandlers();
 
   function setUpHandlers() {
     document.querySelector("#keys").addEventListener("click", function (e) {
-      var key = e.target.getAttribute("data-key");
+      if (e.target.nodeName !== "BUTTON") return;
 
-      if (e.target.nodeName !== "BUTTON") {
-        return;
-      }
+      const key = e.target.getAttribute("data-key");
+      state = keyEventReducer(state, key);
 
-      if (isOperator(key)) {
-        display = processOperator(display.curr, display.calcStr, key);
-      } else if (key === "=") {
-        display = processEqual(display.curr, display.calcStr);
-      } else if (key === "AC") {
-        display = processAC();
-      } else if (key === "CE") {
-        display = processCE(display.calcStr);
-      } else if (key === ".") {
-        display = processDecimal(display.curr, display.calcStr);
-      } else {
-        display = processNum(display.curr, display.calcStr, key);
-      }
-
-      if (display.curr.length >= 9 || display.calcStr.length >= 23) {
+      if (state.curr.length >= 9 || state.calcStr.length >= 23) {
         document.querySelector("#summaryDisplay").textContent =
           "Digit Limit Met";
         document.querySelector("#display").textContent = "0";
       } else {
-        document.querySelector("#summaryDisplay").textContent = display.calcStr;
-        document.querySelector("#display").textContent = display.curr;
+        document.querySelector("#summaryDisplay").textContent = state.calcStr;
+        document.querySelector("#display").textContent = state.curr;
       }
     });
+  }
+
+  function keyEventReducer(display, key) {
+    switch (key) {
+      case "+":
+      case "-":
+      case "*":
+      case "/":
+        return processOperator(display.curr, display.calcStr, key);
+      case "=":
+        return processEqual(display.curr, display.calcStr);
+      case "AC":
+        return processAC();
+      case "CE":
+        return processCE(display.calcStr);
+      case ".":
+        return processDecimal(display.curr, display.calcStr);
+      default:
+        return processNum(display.curr, display.calcStr, key);
+    }
   }
 
   function processOperator(curr, calcStr, operator) {
