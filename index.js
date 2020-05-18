@@ -1,17 +1,14 @@
 (function () {
   let state = { calcStr: "0", curr: "0" };
+  document.querySelector("#keys").addEventListener("click", handleKeyClick);
 
-  setUpHandlers();
+  function handleKeyClick(e) {
+    if (e.target.nodeName !== "BUTTON") return;
 
-  function setUpHandlers() {
-    document.querySelector("#keys").addEventListener("click", function (e) {
-      if (e.target.nodeName !== "BUTTON") return;
+    const key = e.target.getAttribute("data-key");
+    state = keyEventReducer(state, key);
 
-      const key = e.target.getAttribute("data-key");
-      state = keyEventReducer(state, key);
-
-      updateDisplay(state);
-    });
+    updateDisplay(state);
   }
 
   function keyEventReducer(display, key) {
