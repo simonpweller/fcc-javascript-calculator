@@ -21,10 +21,7 @@
       } else if (key === "=") {
         newVals = processEqual(curr, calcStr);
       } else if (key === "AC") {
-        newVals = {
-          calcStr: "0",
-          curr: "0",
-        };
+        newVals = processAC();
       } else if (key === "CE") {
         newVals = processCE(calcStr);
       } else if (key === ".") {
@@ -147,6 +144,10 @@
       curr: curr,
       calcStr: calcStr,
     };
+  }
+
+  function processAC() {
+    return { calcStr: "0", curr: "0" };
   }
 
   function processCE(calcStr) {
