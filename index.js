@@ -10,14 +10,7 @@
       const key = e.target.getAttribute("data-key");
       state = keyEventReducer(state, key);
 
-      if (state.curr.length >= 9 || state.calcStr.length >= 23) {
-        document.querySelector("#summaryDisplay").textContent =
-          "Digit Limit Met";
-        document.querySelector("#display").textContent = "0";
-      } else {
-        document.querySelector("#summaryDisplay").textContent = state.calcStr;
-        document.querySelector("#display").textContent = state.curr;
-      }
+      updateDisplay(state);
     });
   }
 
@@ -38,6 +31,16 @@
         return processDecimal(display.curr, display.calcStr);
       default:
         return processNum(display.curr, display.calcStr, key);
+    }
+  }
+
+  function updateDisplay({ calcStr, curr }) {
+    if (curr.length >= 9 || calcStr.length >= 23) {
+      document.querySelector("#summaryDisplay").textContent = "Digit Limit Met";
+      document.querySelector("#display").textContent = "0";
+    } else {
+      document.querySelector("#summaryDisplay").textContent = calcStr;
+      document.querySelector("#display").textContent = curr;
     }
   }
 
