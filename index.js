@@ -11,23 +11,23 @@
     updateDisplay(state);
   }
 
-  function keyEventReducer(display, key) {
+  function keyEventReducer(state, key) {
     switch (key) {
       case "AC":
         return processAC();
       case "CE":
-        return processCE(display);
+        return processCE(state);
       case "=":
-        return processEqual(display);
+        return processEqual(state);
       case ".":
-        return processDecimal(display);
+        return processDecimal(state);
       case "+":
       case "-":
       case "*":
       case "/":
-        return processOperator(display, key);
+        return processOperator(state, key);
       default:
-        return processNum(display, key);
+        return processNum(state, key);
     }
   }
 
