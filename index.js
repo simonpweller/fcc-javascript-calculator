@@ -46,8 +46,7 @@
     if ((length === 0 || calcStr === "-") && operator !== "subtract") {
       // invalid - do nothing;
     } else {
-      // if current state is calculation result - reset calcStr to curr
-      if (calcStr.indexOf("=") > -1) {
+      if (isCalculationResult(calcStr)) {
         calcStr = curr;
       }
 
@@ -73,7 +72,7 @@
   function processEqual({ curr, calcStr }) {
     const length = calcStr.length;
     const lastEntry = calcStr[length - 1];
-    if (length === 0 || isOperator(lastEntry) || calcStr.indexOf("=") > -1) {
+    if (length === 0 || isOperator(lastEntry) || isCalculationResult(calcStr)) {
       // invalid - do nothing;
     } else {
       if (lastEntry === ".") {
@@ -90,8 +89,7 @@
   }
 
   function processNum({ curr, calcStr }, key) {
-    // if current state is calculation result - reset calcStr and curr
-    if (calcStr.indexOf("=") > -1) {
+    if (isCalculationResult(calcStr)) {
       calcStr = "";
       curr = "";
     }
@@ -120,8 +118,7 @@
   }
 
   function processDecimal({ curr, calcStr }) {
-    // if current state is calculation result - reset calcStr and curr
-    if (calcStr.indexOf("=") > -1) {
+    if (isCalculationResult(calcStr)) {
       calcStr = "";
       curr = "";
     }
@@ -148,8 +145,7 @@
   }
 
   function processCE({ calcStr }) {
-    // if current state is calculation result - reset calcStr and curr
-    if (calcStr.indexOf("=") > -1) {
+    if (isCalculationResult(calcStr)) {
       return {
         calcStr: "0",
         curr: "0",
@@ -157,7 +153,7 @@
     }
 
     let curr = "";
-    const match = calcStr.match(/[\/\*\-\+]/gi);
+    const match = calcStr.match(/[\/*\-+]/gi);
     if (match === null) {
       // no operators found;
       calcStr = "";
@@ -185,6 +181,10 @@
 
   function isOperator(key) {
     return "/*-+".includes(key);
+  }
+
+  function isCalculationResult(calcStr) {
+    return calcStr.indexOf("=") > -1;
   }
 
   function cutDecimals(value, precision) {
