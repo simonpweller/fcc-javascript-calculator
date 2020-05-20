@@ -64,10 +64,7 @@
       calcStr += operator;
       curr = operator;
     }
-    return {
-      curr: curr,
-      calcStr: calcStr,
-    };
+    return { curr, calcStr };
   }
 
   function processEqual({ curr, calcStr }) {
@@ -83,10 +80,7 @@
       curr = cutDecimals(eval(calcStr), 4);
       calcStr = calcStr + "=" + curr;
     }
-    return {
-      curr: curr,
-      calcStr: calcStr,
-    };
+    return { curr, calcStr };
   }
 
   function processNum({ curr, calcStr }, key) {
@@ -111,10 +105,7 @@
     calcStr += key;
     curr += key;
 
-    return {
-      curr: curr,
-      calcStr: calcStr,
-    };
+    return { curr, calcStr };
   }
 
   function processDecimal({ curr, calcStr }) {
@@ -133,10 +124,7 @@
       curr += ".";
       calcStr += ".";
     }
-    return {
-      curr: curr,
-      calcStr: calcStr,
-    };
+    return { curr, calcStr };
   }
 
   function processAC() {
@@ -168,10 +156,7 @@
       ({ curr, calcStr } = initialState);
     }
 
-    return {
-      curr: curr,
-      calcStr: calcStr,
-    };
+    return { curr, calcStr };
   }
 
   function isOperator(key) {
