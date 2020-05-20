@@ -1,5 +1,6 @@
 (function () {
-  let state = { calcStr: "0", curr: "0" };
+  const initialState = { calcStr: "0", curr: "0" };
+  let state = { ...initialState };
   document.querySelector("#keys").addEventListener("click", handleKeyClick);
 
   function handleKeyClick(e) {
@@ -90,8 +91,7 @@
 
   function processNum({ curr, calcStr }, key) {
     if (isCalculationResult(calcStr)) {
-      calcStr = "";
-      curr = "";
+      ({ curr, calcStr } = initialState);
     }
 
     const length = calcStr.length;
@@ -119,15 +119,14 @@
 
   function processDecimal({ curr, calcStr }) {
     if (isCalculationResult(calcStr)) {
-      calcStr = "";
-      curr = "";
+      ({ curr, calcStr } = initialState);
     }
 
     const length = calcStr.length;
     const lastEntry = calcStr[length - 1];
     // if there is already a decimal, do nothing
     if (curr.includes(".")) {
-    } else if (isOperator(lastEntry) || calcStr.length === 0) {
+    } else if (isOperator(lastEntry)) {
       curr = "0.";
       calcStr += "0.";
     } else {
@@ -146,10 +145,7 @@
 
   function processCE({ calcStr }) {
     if (isCalculationResult(calcStr)) {
-      return {
-        calcStr: "0",
-        curr: "0",
-      };
+      return { ...initialState };
     }
 
     let curr = "";
@@ -169,8 +165,7 @@
     }
 
     if (calcStr === "") {
-      curr = "0";
-      calcStr = "0";
+      ({ curr, calcStr } = initialState);
     }
 
     return {
