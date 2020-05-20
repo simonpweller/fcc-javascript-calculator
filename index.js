@@ -60,7 +60,6 @@
           calcStr = calcStr.substring(0, calcStr.length - 1);
         }
       }
-      // append
       calcStr += operator;
       curr = operator;
     }
@@ -91,12 +90,10 @@
     const length = calcStr.length;
     const lastEntry = calcStr[length - 1];
 
-    // if lastEntry is operator, reset curr;
     if (isOperator(lastEntry)) {
       curr = "";
     }
 
-    // if curr is 0 reset curr and slice of the 0;
     if (curr === "0") {
       curr = "";
       calcStr = calcStr.substring(0, calcStr.length - 1);
@@ -115,8 +112,8 @@
 
     const length = calcStr.length;
     const lastEntry = calcStr[length - 1];
-    // if there is already a decimal, do nothing
     if (curr.includes(".")) {
+      // invalid - do nothing;
     } else if (isOperator(lastEntry)) {
       curr = "0.";
       calcStr += "0.";
