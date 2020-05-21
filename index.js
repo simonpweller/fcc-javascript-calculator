@@ -69,7 +69,7 @@
   function processEqual({ curr, calcStr }) {
     const length = calcStr.length;
     const lastEntry = calcStr[length - 1];
-    if (length === 0 || isOperator(lastEntry) || isCalculationResult(calcStr)) {
+    if (isOperator(lastEntry) || isCalculationResult(calcStr)) {
       // invalid - do nothing;
     } else {
       if (lastEntry === ".") {
