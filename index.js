@@ -70,15 +70,14 @@
     const length = calcStr.length;
     const lastEntry = calcStr[length - 1];
     if (isOperator(lastEntry) || isCalculationResult(calcStr)) {
-      // invalid - do nothing;
-    } else {
-      if (lastEntry === ".") {
-        // slice of decimal;
-        calcStr = calcStr.substring(0, length - 1);
-      }
-      curr = cutDecimals(eval(calcStr), 4);
-      calcStr = calcStr + "=" + curr;
+      return { curr, calcStr };
     }
+    if (lastEntry === ".") {
+      // slice of decimal;
+      calcStr = calcStr.substring(0, length - 1);
+    }
+    curr = cutDecimals(eval(calcStr), 4);
+    calcStr = calcStr + "=" + curr;
     return { curr, calcStr };
   }
 
