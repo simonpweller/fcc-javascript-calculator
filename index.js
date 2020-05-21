@@ -67,17 +67,17 @@
   }
 
   function processEqual({ curr, calcStr }) {
-    const length = calcStr.length;
-    const lastEntry = calcStr[length - 1];
-    if (isOperator(lastEntry) || isCalculationResult(calcStr)) {
+    if (isCalculationResult(calcStr)) {
       return { curr, calcStr };
     }
-    if (lastEntry === ".") {
-      // slice of decimal;
-      calcStr = calcStr.substring(0, length - 1);
+
+    const lastEntry = calcStr.slice(-1);
+    if (lastEntry === "." || isOperator(lastEntry)) {
+      calcStr = calcStr.slice(0, -1);
     }
+
     curr = cutDecimals(eval(calcStr), 4);
-    calcStr = calcStr + "=" + curr;
+    calcStr = `${calcStr}=${curr}`;
     return { curr, calcStr };
   }
 
