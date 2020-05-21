@@ -44,7 +44,7 @@
 
   function processOperator({ curr, calcStr }, operator) {
     const length = calcStr.length;
-    if ((length === 0 || calcStr === "-") && operator !== "subtract") {
+    if (calcStr === "-" && operator !== "subtract") {
       // invalid - do nothing;
     } else {
       if (isCalculationResult(calcStr)) {
