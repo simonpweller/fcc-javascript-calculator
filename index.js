@@ -71,10 +71,10 @@
       return { curr, calcStr };
     }
 
-    const validCalcStr = trimToValidCalculation(calcStr);
-    curr = cutDecimals(eval(validCalcStr), 4);
+    const nextCalcStr = trimToValidCalculation(calcStr);
+    const nextCurr = cutDecimals(eval(nextCalcStr), 4);
 
-    return { curr, calcStr: `${validCalcStr}=${curr}` };
+    return { curr: nextCurr, calcStr: `${nextCalcStr}=${nextCurr}` };
   }
 
   function trimToValidCalculation(calcStr) {
