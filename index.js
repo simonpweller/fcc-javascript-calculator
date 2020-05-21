@@ -71,13 +71,25 @@
       return { curr, calcStr };
     }
 
-    const lastEntry = calcStr.slice(-1);
-    if (lastEntry === "." || isOperator(lastEntry)) {
-      calcStr = calcStr.slice(0, -1);
-    }
+    const validCalcStr = trimToValidCalculation(calcStr);
+    curr = cutDecimals(eval(validCalcStr), 4);
 
-    curr = cutDecimals(eval(calcStr), 4);
-    return { curr, calcStr: `${calcStr}=${curr}` };
+    return { curr, calcStr: `${validCalcStr}=${curr}` };
+  }
+
+  function trimToValidCalculation(calcStr) {
+    if (endsWithDecimal(calcStr) || endsWithOperator(calcStr)) {
+      return trimToValidCalculation(calcStr.slice(0, -1));
+    }
+    return calcStr;
+  }
+
+  function endsWithDecimal(calcStr) {
+    return calcStr.endsWith(".");
+  }
+
+  function endsWithOperator(calcStr) {
+    return "/*-+".includes(calcStr.slice(-1));
   }
 
   function processNum({ curr, calcStr }, key) {
