@@ -77,8 +77,7 @@
     }
 
     curr = cutDecimals(eval(calcStr), 4);
-    calcStr = `${calcStr}=${curr}`;
-    return { curr, calcStr };
+    return { curr, calcStr: `${calcStr}=${curr}` };
   }
 
   function processNum({ curr, calcStr }, key) {
