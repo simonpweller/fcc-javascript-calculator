@@ -77,21 +77,6 @@
     return { curr: nextCurr, calcStr: `${nextCalcStr}=${nextCurr}` };
   }
 
-  function trimToValidCalculation(calcStr) {
-    if (endsWithDecimal(calcStr) || endsWithOperator(calcStr)) {
-      return trimToValidCalculation(calcStr.slice(0, -1));
-    }
-    return calcStr;
-  }
-
-  function endsWithDecimal(calcStr) {
-    return calcStr.endsWith(".");
-  }
-
-  function endsWithOperator(calcStr) {
-    return "/*-+".includes(calcStr.slice(-1));
-  }
-
   function processNum({ curr, calcStr }, key) {
     if (isCalculationResult(calcStr)) {
       ({ curr, calcStr } = initialState);
@@ -164,6 +149,21 @@
     }
 
     return { curr, calcStr };
+  }
+
+  function trimToValidCalculation(calcStr) {
+    if (endsWithDecimal(calcStr) || endsWithOperator(calcStr)) {
+      return trimToValidCalculation(calcStr.slice(0, -1));
+    }
+    return calcStr;
+  }
+
+  function endsWithDecimal(calcStr) {
+    return calcStr.endsWith(".");
+  }
+
+  function endsWithOperator(calcStr) {
+    return "/*-+".includes(calcStr.slice(-1));
   }
 
   function isOperator(key) {
