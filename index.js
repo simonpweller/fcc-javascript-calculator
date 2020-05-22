@@ -43,27 +43,13 @@
   }
 
   function processOperator({ curr, calcStr }, operator) {
-    const length = calcStr.length;
-    if (calcStr === "-" && operator !== "subtract") {
-      // invalid - do nothing;
-    } else {
-      if (isCalculationResult(calcStr)) {
-        calcStr = curr;
-      }
+    let nextCalcStr = isCalculationResult(calcStr) ? curr : calcStr;
 
-      const lastEntry = calcStr[length - 1];
-      if (isOperator(lastEntry) || lastEntry === ".") {
-        if (isOperator(calcStr[length - 2])) {
-          calcStr = calcStr.substring(0, calcStr.length - 1);
-        }
-        if (operator !== "-") {
-          calcStr = calcStr.substring(0, calcStr.length - 1);
-        }
-      }
-      calcStr += operator;
-      curr = operator;
+    if (operator !== "-" || nextCalcStr.endsWith("-")) {
+      nextCalcStr = trimToValidCalculation(nextCalcStr);
     }
-    return { curr, calcStr };
+
+    return { curr: operator, calcStr: nextCalcStr + operator };
   }
 
   function processEqual({ curr, calcStr }) {
@@ -177,6 +163,6 @@
   function cutDecimals(value, precision) {
     const exponentialForm = Number(value + "e" + precision);
     const rounded = Math.round(exponentialForm);
-    return Number(rounded + "e-" + precision);
+    return Number(rounded + "e-" + precision).toString();
   }
 })();
