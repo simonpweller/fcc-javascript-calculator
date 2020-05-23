@@ -45,11 +45,14 @@
   function processOperator({ curr, calcStr }, operator) {
     let nextCalcStr = isCalculationResult(calcStr) ? curr : calcStr;
 
-    if (operator !== "-" || nextCalcStr.endsWith("-")) {
-      nextCalcStr = trimToValidCalculation(nextCalcStr);
+    if (operator === "-" && !nextCalcStr.endsWith("-")) {
+      return { curr: operator, calcStr: nextCalcStr + operator };
     }
 
-    return { curr: operator, calcStr: nextCalcStr + operator };
+    return {
+      curr: operator,
+      calcStr: trimToValidCalculation(nextCalcStr) + operator,
+    };
   }
 
   function processEqual({ curr, calcStr }) {
