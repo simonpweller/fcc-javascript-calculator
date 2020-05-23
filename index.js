@@ -63,9 +63,9 @@
     return { curr: nextCurr, calcStr: `${nextCalcStr}=${nextCurr}` };
   }
 
-  function processNum({ curr, calcStr }, key) {
+  function processNum({ curr, calcStr }, num) {
     if (isCalculationResult(calcStr)) {
-      ({ curr, calcStr } = initialState);
+      return { curr: num, calcStr: num };
     }
 
     const length = calcStr.length;
@@ -80,8 +80,8 @@
       calcStr = calcStr.substring(0, calcStr.length - 1);
     }
 
-    calcStr += key;
-    curr += key;
+    calcStr += num;
+    curr += num;
 
     return { curr, calcStr };
   }
