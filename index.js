@@ -66,17 +66,13 @@
   function processNum({ curr, calcStr }, num) {
     if (isCalculationResult(calcStr)) {
       return { curr: num, calcStr: num };
-    }
-
-    if (curr === "0") {
+    } else if (curr === "0") {
       return { curr: num, calcStr: calcStr.slice(0, -1) + num };
-    }
-
-    if (endsWithOperator(calcStr)) {
+    } else if (endsWithOperator(calcStr)) {
       return { curr: num, calcStr: calcStr + num };
+    } else {
+      return { curr: curr + num, calcStr: calcStr + num };
     }
-
-    return { curr: curr + num, calcStr: calcStr + num };
   }
 
   function processDecimal({ curr, calcStr }) {
