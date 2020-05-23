@@ -83,18 +83,11 @@
       return { curr: curr + ".", calcStr: curr + "." };
     } else if (curr.includes(".")) {
       return { curr, calcStr };
-    }
-
-    const length = calcStr.length;
-    const lastEntry = calcStr[length - 1];
-    if (isOperator(lastEntry)) {
-      curr = "0.";
-      calcStr += "0.";
+    } else if (endsWithOperator(calcStr)) {
+      return { curr: "0.", calcStr: calcStr + "0." };
     } else {
-      curr += ".";
-      calcStr += ".";
+      return { curr: curr + ".", calcStr: calcStr + "." };
     }
-    return { curr, calcStr };
   }
 
   function processAC() {
@@ -142,10 +135,6 @@
 
   function endsWithOperator(calcStr) {
     return "/*-+".includes(calcStr.slice(-1));
-  }
-
-  function isOperator(key) {
-    return "/*-+".includes(key);
   }
 
   function isCalculationResult(calcStr) {
