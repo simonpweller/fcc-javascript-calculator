@@ -68,16 +68,15 @@
       return { curr: num, calcStr: num };
     }
 
+    if (curr === "0") {
+      return { curr: num, calcStr: calcStr.slice(0, -1) + num };
+    }
+
     const length = calcStr.length;
     const lastEntry = calcStr[length - 1];
 
     if (isOperator(lastEntry)) {
       curr = "";
-    }
-
-    if (curr === "0") {
-      curr = "";
-      calcStr = calcStr.substring(0, calcStr.length - 1);
     }
 
     calcStr += num;
