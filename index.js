@@ -99,27 +99,20 @@
       return { ...initialState };
     }
 
-    let curr = "";
-    const match = calcStr.match(/[\/*\-+]/gi);
-    if (match === null) {
-      // no operators found;
-      calcStr = "";
+    const nums = calcStr.split(/[/*\-+]/).filter(Boolean);
+    const lastNum = nums.slice(-1)[0];
+
+    if (endsWithOperator(calcStr)) {
+      return { curr: lastNum, calcStr: trimToValidCalculation(calcStr) };
+    } else if (nums.length > 1) {
+      const calcStrWithoutLastNum = calcStr.slice(0, -lastNum.length);
+      return {
+        curr: calcStrWithoutLastNum.slice(-1),
+        calcStr: calcStrWithoutLastNum,
+      };
     } else {
-      // operators found
-      let lastIndex = calcStr.lastIndexOf(match[match.length - 1]);
-      if (lastIndex < calcStr.length - 1) {
-        // doesn't end with operator;
-        curr = calcStr[lastIndex]; // set curr to last operator;
-        lastIndex++; // increment to preserve operator;
-      }
-      calcStr = calcStr.substring(0, lastIndex);
+      return { ...initialState };
     }
-
-    if (calcStr === "") {
-      ({ curr, calcStr } = initialState);
-    }
-
-    return { curr, calcStr };
   }
 
   function trimToValidCalculation(calcStr) {
