@@ -91,7 +91,7 @@
   }
 
   function processAC() {
-    return { calcStr: "0", curr: "0" };
+    return { ...initialState };
   }
 
   function processCE({ calcStr }) {
