@@ -80,7 +80,7 @@
 
   function processDecimal({ curr, calcStr }) {
     if (isCalculationResult(calcStr)) {
-      ({ curr, calcStr } = initialState);
+      return { curr: curr + ".", calcStr: curr + "." };
     }
 
     const length = calcStr.length;
