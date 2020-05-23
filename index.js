@@ -72,17 +72,11 @@
       return { curr: num, calcStr: calcStr.slice(0, -1) + num };
     }
 
-    const length = calcStr.length;
-    const lastEntry = calcStr[length - 1];
-
-    if (isOperator(lastEntry)) {
-      curr = "";
+    if (endsWithOperator(calcStr)) {
+      return { curr: num, calcStr: calcStr + num };
     }
 
-    calcStr += num;
-    curr += num;
-
-    return { curr, calcStr };
+    return { curr: curr + num, calcStr: calcStr + num };
   }
 
   function processDecimal({ curr, calcStr }) {
