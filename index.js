@@ -81,13 +81,13 @@
   function processDecimal({ curr, calcStr }) {
     if (isCalculationResult(calcStr)) {
       return { curr: curr + ".", calcStr: curr + "." };
+    } else if (curr.includes(".")) {
+      return { curr, calcStr };
     }
 
     const length = calcStr.length;
     const lastEntry = calcStr[length - 1];
-    if (curr.includes(".")) {
-      // invalid - do nothing;
-    } else if (isOperator(lastEntry)) {
+    if (isOperator(lastEntry)) {
       curr = "0.";
       calcStr += "0.";
     } else {
